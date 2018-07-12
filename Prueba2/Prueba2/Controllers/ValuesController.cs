@@ -14,61 +14,47 @@ namespace Prueba2.Controllers
     public class ValuesController : ControllerBase
     {
         // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            string connectionString = "server=127.0.0.1;user id=root;password=root;port=3306;database=Score;SslMode=none";
-            string query = "INSERT INTO puntajeJugador (Puntaje) values (3)";
+        //[HttpGet]
+        //public IEnumerable<string> Get()
+        //{
+        //    string connectionString = "server=127.0.0.1;user id=root;password=root;port=3306;database=Score;SslMode=none";
+        //    string query = "INSERT INTO puntajeJugador (Puntaje) values (3)";
 
-            MySqlConnection Conexion = new MySqlConnection(connectionString);
-            MySqlCommand comandos = new MySqlCommand(query, Conexion);
-            comandos.CommandTimeout = 60;
+        //    MySqlConnection Conexion = new MySqlConnection(connectionString);
+        //    MySqlCommand comandos = new MySqlCommand(query, Conexion);
+        //    comandos.CommandTimeout = 60;
 
-            try
-            {
-                Conexion.Open();
-                MySqlDataReader myReader = comandos.ExecuteReader();
+        //    try
+        //    {
+        //        Conexion.Open();
+        //        MySqlDataReader myReader = comandos.ExecuteReader();
 
-                return new string[] { "Guardado" };
-                //string mensaje = "Se guardo";
-                //Console.WriteLine(mensaje);
-
-            }
-            catch
-            {
-                return new string[] {"Error"};
-                //string mensaje = "Error";
-                //Console.WriteLine(mensaje);
-            }
-        }
+        //        return new string[] { "Guardado" };
+        //    }
+        //    catch
+        //    {
+        //        return new string[] {"Error"};
+        //    }
+        //}
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            return $"value {id}";
         }
 
         // POST api/<controller>
-        /*[HttpPost]
-        public puntajes Index([FromBody]puntajes puntos)
-        {
-            return puntos;
-        }
-        public class puntajes
-        {
-            public string puntosJugador { get; set; }
-        }*/
-
         [HttpPost]
-
-        public void GuardarPuntaje ()
+        public void Post([FromBody]puntajes value)
         {
-            string connectionString = "datasource=127.0.0.1;port=3306;database=Score;username=root;password=root;";
-            string query = "INSERT INTO puntajeJugador (Puntaje) values (2)";
-
+            var pj = new puntajes();
+            string connectionString = "server=127.0.0.1;user id=root;password=root;port=3306;database=Score;SslMode=none";
+            //string query = string.Format("INSERT INTO puntajeJugador (Puntaje) values ('{0}')",value);
+;
+          
             MySqlConnection Conexion = new MySqlConnection(connectionString);
-            MySqlCommand comandos = new MySqlCommand(query, Conexion);
+            MySqlCommand comandos = new MySqlCommand(string.Format("INSERT INTO puntajeJugador (Puntaje) values ('{0}')",pj.puntos), Conexion);
             comandos.CommandTimeout = 60;
 
             try
@@ -76,24 +62,26 @@ namespace Prueba2.Controllers
                 Conexion.Open();
                 MySqlDataReader myReader = comandos.ExecuteReader();
 
-                string mensaje = "Se guardo";
-                Console.WriteLine(mensaje);
-                Conexion.Close();
-
+                //string[] { "Guardado" };
             }
             catch
             {
-                string mensaje = "Error";
-                Console.WriteLine(mensaje);
+                //string[] { "Error" };
             }
-
         }
+
+        public class puntajes
+        {
+            public string puntos { get; set; }
+        };
+
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
         }
+
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
@@ -102,3 +90,4 @@ namespace Prueba2.Controllers
         }
     }
 }
+    

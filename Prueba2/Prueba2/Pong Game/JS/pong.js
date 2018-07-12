@@ -45,7 +45,7 @@ class Player extends Rect {
         this.score = 0;
     }
 }
-
+var puntajeJugador;
 class Pong {
     constructor(canvas) {
         this._canvas = canvas;
@@ -144,13 +144,18 @@ class Pong {
                                         offset + pos* CHARS_W, 20);
             });
         });
-    }
+    };
     reset() {
         this.ball.pos.x = this._canvas.width / 2;
         this.ball.pos.y = this._canvas.height / 2;
 
         this.ball.vel.x = 0;
         this.ball.vel.y = 0;
+        puntajeJugador = this.players[1].score;
+        if(puntajeJugador === 2){
+            console.log("Fin del juego")
+            Guardar();
+        }
     }
     start() {
         if (this.ball.vel.x === 0 && this.ball.vel.y === 0) {
@@ -177,11 +182,26 @@ class Pong {
 
         this.draw();
     }
+
+}
+
+function Guardar() {
+    var puntajes = {
+        "puntos":  puntajeJugador
+    }
+    
+    $.ajax({
+        url: 'http://localhost:50355/api/values',
+        type: 'POST',
+        dataType: 'JSON',
+        data: JSON.stringify(puntajes),
+        contentType: 'application/json; charset=utf-8',
+        success: function (result) { console.log("Realizado"); return result;}
+});
 }
 
 const canvas = document.getElementById('pong');
 const pong = new Pong(canvas);
-
 canvas.addEventListener('mousemove', event => {
     pong.players[0].pos.y = event.offsetY;
 });
@@ -189,3 +209,4 @@ canvas.addEventListener('mousemove', event => {
 canvas.addEventListener('click', event => {
     pong.start();
 });
+

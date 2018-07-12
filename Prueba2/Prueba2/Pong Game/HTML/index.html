@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC>
 <html>
 <head>
     <title>Dev Pong</title>    
@@ -7,22 +8,5 @@
 </body>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 <script src="../JS/pong.js"></script>
-<script>
-    var puntosJugador = 1;
-var puntajes = {};
-function Guardar() {
-    puntajes.puntos = puntosJugador;
-
-    var puntajeJson = JSON.stringify(puntajes);
-    $.ajax({
-        url: 'https://localhost:50355/api/values',
-        type: 'POST',
-        dataType: 'JSON',
-        contentType: 'application/json',
-        data: puntajeJson,
-        success: function (result) { console.log("Realizado"); return result; }
-
-    })
-};
-</script>
 </html>
+
